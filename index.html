@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title>Personally Identifiable Information</title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo 1_Personally Identifiable Information.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Cuestionario PII</legend>
+	<div id="test">
+		<div class="cuestion">1. Un ejemplo de PII corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : Canci&oacute;n favorita.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b : Estilo de vestimenta habitual.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Nombre completo y/o alias.&nbsp;</label>
+		</div>
+		<div class="cuestion">2. “La p&eacute;rdida de confidencialidad, integridad o disponibilidad podr&iacute;a tener un impacto negativo grave en las operaciones, los activos o las personas de la organizaci&oacute;n”. El enunciado anterior corresponde a un nivel de impacto de violaci&oacute;n de seguridad:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Bajo.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Moderado.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Alto.&nbsp;</label>
+		</div>
+		<div class="cuestion">3. ““La p&eacute;rdida de seguridad, integridad o disponibilidad podr&iacute;a tener un impacto negativo limitado en las operaciones, los activos o los empleados de la organizaci&oacute;n”. El enunciado anterior corresponde a un nivel de impacto de violaci&oacute;n de seguridad:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Bajo.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Moderado.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Alto.&nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. Un ejemplo de PII corresponde a:",
+				respuestas:
+				{
+					a: "Canción favorita.",
+					b: "Estilo de vestimenta habitual.",
+					c: "Nombre completo y/o alias",
+				},
+				respuestaCorrecta: "c",
+			},
+			{
+				pregunta: "2. “La pérdida de confidencialidad, integridad o disponibilidad podría tener un impacto negativo grave en las operaciones, los activos o las personas de la organización”. El enunciado anterior corresponde a un nivel de impacto de violación de seguridad:",
+				respuestas:
+				{
+					a: "Bajo.",
+					b: "Moderado.",
+					c: "Alto.",
+				},
+				respuestaCorrecta: "b",
+			},
+			{
+				pregunta: "3. “El impacto potencial es bajo si la pérdida de seguridad, integridad o disponibilidad pudiera tener un impacto negativo limitado en las operaciones, los activos o los empleados de la organización”. El enunciado anterior corresponde a un nivel de impacto de violación de seguridad:",
+				respuestas:
+				{
+					a: "Bajo.",
+					b: "Moderado.",
+					c: "Alto.",
+				},
+				respuestaCorrecta: "a",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
